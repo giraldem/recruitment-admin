@@ -1,0 +1,299 @@
+<!-- 
+    INSTRUCCIONES PARA DIVI:
+    1. Añade un módulo de "Código" (Code) en tu página.
+    2. Pega todo este contenido dentro del módulo.
+-->
+
+<!-- Google Fonts (Solo si no las tienes ya en Divi) -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- reCAPTCHA v3 Standard -->
+<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+
+<style>
+    /* Scoped Styles for Status Checker */
+    #status-checker-widget {
+        --primary-hue: 250;
+        --primary: hsl(var(--primary-hue), 70%, 60%);
+        --primary-hover: hsl(var(--primary-hue), 70%, 50%);
+        /* Fondo oscuro ajustado para integrarse o sobresalir en Divi */
+        --surface-color: #1a1d24;
+        --text-color: #ffffff;
+        --text-muted-color: #a0aec0;
+        --border-color: #2d3748;
+
+        font-family: 'Outfit', sans-serif;
+        color: var(--text-color);
+        max-width: 500px;
+        margin: 0 auto;
+        /* Centrado */
+        padding: 2rem;
+        background: var(--surface-color);
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #status-checker-widget * {
+        box-sizing: border-box;
+    }
+
+    #status-checker-widget h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        text-align: center;
+        line-height: 1.2;
+        padding-bottom: 15px;
+    }
+
+    #status-checker-widget p.subtitle {
+        text-align: center;
+        color: var(--text-muted-color);
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    #status-checker-widget .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+    #status-checker-widget label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-muted-color);
+    }
+
+    #status-checker-widget input[type="email"] {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-color);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    #status-checker-widget input[type="email"]:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    #status-checker-widget button.btn-check {
+        width: 100%;
+        padding: 12px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #status-checker-widget button.btn-check:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+
+    #status-checker-widget .result-area {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: none;
+        /* Oculto por defecto */
+        animation: fadeIn 0.4s ease;
+    }
+
+    #status-checker-widget .result-area.visible {
+        display: block;
+    }
+
+    #status-checker-widget .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Colores de estado */
+    .st-pending {
+        background: rgba(255, 200, 0, 0.15);
+        color: #ffd700;
+    }
+
+    .st-review {
+        background: rgba(0, 200, 255, 0.15);
+        color: #00d9ff;
+    }
+
+    .st-accepted {
+        background: rgba(50, 255, 100, 0.15);
+        color: #4ade80;
+    }
+
+    .st-rejected {
+        background: rgba(255, 50, 50, 0.15);
+        color: #ff6b6b;
+    }
+
+    .st-error {
+        color: #ff6b6b;
+        text-align: center;
+    }
+
+    /* Loader */
+    .sc-loader {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: sc-spin 0.8s linear infinite;
+        display: none;
+    }
+
+    .sc-loader.active {
+        display: block;
+    }
+
+    .btn-text.hidden {
+        display: none;
+    }
+
+    @keyframes sc-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+<div id="status-checker-widget">
+    <h2>Consulta tu Estado</h2>
+    <p class="subtitle">Ingresa tu correo para ver el progreso de tu solicitud.</p>
+
+    <form id="sc-form">
+        <div class="input-group">
+            <label for="sc-email">Correo Electrónico</label>
+            <input type="email" id="sc-email" name="email" placeholder="ejemplo@correo.com" required>
+        </div>
+
+        <!-- Botón -->
+        <button type="submit" id="sc-submit" class="btn-check">
+            <span class="btn-text">Consultar Estado</span>
+            <div class="sc-loader"></div>
+        </button>
+    </form>
+
+    <!-- Resultados -->
+    <div id="sc-result" class="result-area"></div>
+</div>
+
+<script>
+    (function () {
+        // URL Real de tu Backend
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyBy7p0Bo6MZSGSDvk0Kf1qg4biB5TA-VMnuwGSOKrFxKirkkzU9wCbH4ERXz9rdt5r/exec';
+
+        // TU CLAVE RECAPTCHA V3 STANDARD
+        const RECAPTCHA_KEY = '6LdfIiosAAAAAD9xERDxjK2y7Q67zSKXnwz0BAZ7';
+
+        const form = document.getElementById('sc-form');
+        const emailInput = document.getElementById('sc-email');
+        const btn = document.getElementById('sc-submit');
+        const btnText = btn.querySelector('.btn-text');
+        const loader = btn.querySelector('.sc-loader');
+        const resultDiv = document.getElementById('sc-result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value.trim();
+            if (!email) return;
+
+            // UI Loading
+            btn.disabled = true;
+            btnText.classList.add('hidden');
+            loader.classList.add('active');
+            resultDiv.className = 'result-area'; // Ocultar
+            resultDiv.innerHTML = '';
+
+            try {
+                // Get Token (Standard v3)
+                let token = 'skipped_verification';
+                if (typeof grecaptcha !== 'undefined') {
+                    try {
+                        await new Promise(resolve => grecaptcha.ready(resolve));
+                        token = await grecaptcha.execute(RECAPTCHA_KEY, { action: 'check_status' });
+                    } catch (e) {
+                        console.warn('reCAPTCHA error:', e);
+                    }
+                }
+
+                // Fetch
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ email, token }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+
+                const data = await response.json();
+
+                // Render
+                resultDiv.classList.add('visible');
+
+                if (data.error || data.status === 'not_found' || data.status === 'error') {
+                    resultDiv.innerHTML = `
+                    <div style="text-align: center; color: #ff6b6b;">
+                        <strong>${data.status === 'not_found' ? 'No Encontrado' : 'Error'}</strong>
+                        <p style="margin-top:5px; font-size: 0.9rem;">${data.message}</p>
+                    </div>
+                `;
+                } else {
+                    let badgeClass = 'st-pending';
+                    const s = data.status.toLowerCase();
+                    if (s.includes('review') || s.includes('revisión')) badgeClass = 'st-review';
+                    if (s.includes('interview') || s.includes('entrevista') || s.includes('oferta') || s.includes('approved')) badgeClass = 'st-accepted';
+                    if (s.includes('reject') || s.includes('no')) badgeClass = 'st-rejected';
+
+                    resultDiv.innerHTML = `
+                    <div style="text-align: center;">
+                        <span class="status-badge ${badgeClass}">${data.status}</span>
+                        <h3 style="margin: 10px 0; color: white;">Estado Actual</h3>
+                        <p style="color: #a0aec0;">${data.message}</p>
+                    </div>
+                `;
+                }
+
+            } catch (err) {
+                console.error(err);
+                resultDiv.classList.add('visible');
+                resultDiv.innerHTML = `<div class="st-error">Error técnico: ${err.message}</div>`;
+            } finally {
+                btn.disabled = false;
+                btnText.classList.remove('hidden');
+                loader.classList.remove('active');
+            }
+        });
+    })();
+</script>

@@ -1,0 +1,547 @@
+<!-- 
+    INSTRUCCIONES PARA DIVI / WORDPRESS:
+    1. Agrega un módulo de "Código" (Code Module) en tu página de Divi.
+    2. Pega todo este contenido dentro.
+    3. Asegúrate de que no haya otros scripts bloqueando la carga.
+-->
+
+<!-- LIBRERÍAS EXTERNAS (Si ya las tienes en el tema, puedes borrarlas) -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+<style>
+    /* Estilos Scoped para evitar conflictos con el tema Divi */
+    #ctd-job-board-root {
+        font-family: 'Outfit', sans-serif;
+        color: #f0f6fc;
+        /* Fondo oscuro base si se requiere, o dejar transparente */
+        background-color: #0d1117;
+    }
+
+    #ctd-job-board-root * {
+        box-sizing: border-box;
+    }
+
+    /* Variables Locales */
+    #ctd-job-board-root {
+        --bg-color: #0d1117;
+        --surface-color: #161b22;
+        --surface-hover: #21262d;
+        --primary-hue: 250;
+        --primary: hsl(var(--primary-hue), 70%, 60%);
+        --primary-hover: hsl(var(--primary-hue), 70%, 50%);
+        --text-color: #f0f6fc;
+        --text-muted: #8b949e;
+        --border-color: #30363d;
+        --success: #238636;
+        --error: #da3633;
+        --glass: rgba(22, 27, 34, 0.7);
+    }
+
+    /* HERO SECTION */
+    #ctd-job-board-root .hero-section {
+        padding: 4rem 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-color);
+    }
+
+    #ctd-job-board-root .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 10;
+    }
+
+    #ctd-job-board-root .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+    }
+
+    #ctd-job-board-root .hero-content p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+    }
+
+    #ctd-job-board-root .hero-background .orb {
+        position: absolute;
+        top: -50%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(113, 100, 240, 0.15) 0%, transparent 70%);
+        z-index: 0;
+        filter: blur(60px);
+    }
+
+    /* JOB BOARD */
+    #ctd-job-board-root .jobs-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 20px;
+    }
+
+    #ctd-job-board-root .section-header {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    #ctd-job-board-root .section-header h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #ctd-job-board-root .job-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    #ctd-job-board-root .job-card {
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    #ctd-job-board-root .job-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        background: var(--surface-hover);
+    }
+
+    #ctd-job-board-root .job-role {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem 0;
+        color: var(--text-color);
+    }
+
+    #ctd-job-board-root .job-meta {
+        margin-bottom: 0.5rem;
+    }
+
+    #ctd-job-board-root .job-location,
+    #ctd-job-board-root .job-type {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-right: 15px;
+    }
+
+    #ctd-job-board-root .job-desc {
+        margin: 1rem 0;
+        font-size: 0.95rem;
+        color: #c9d1d9;
+    }
+
+    #ctd-job-board-root .job-footer {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* BUTTONS */
+    #ctd-job-board-root .btn-primary {
+        background: var(--primary);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: inline-block;
+    }
+
+    #ctd-job-board-root .btn-primary:hover {
+        background: var(--primary-hover);
+    }
+
+    #ctd-job-board-root .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    #ctd-job-board-root .btn-outline:hover {
+        border-color: var(--text-color);
+    }
+
+    #ctd-job-board-root .w-100 {
+        width: 100%;
+    }
+
+    /* UTILS */
+    #ctd-job-board-root .hidden {
+        display: none;
+    }
+
+    #ctd-job-board-root .text-muted {
+        color: var(--text-muted);
+    }
+
+    /* MODALS (Global Context for Overlay, but scoped styles) */
+    .ctd-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        z-index: 9999;
+        /* High z-index for WP */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .ctd-modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .ctd-modal {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        padding: 2rem;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.3s;
+        color: #f0f6fc;
+    }
+
+    .ctd-modal h3 {
+        color: #f0f6fc;
+        margin-top: 0;
+    }
+
+    .ctd-modal-overlay.active .ctd-modal {
+        transform: translateY(0);
+    }
+
+    .ctd-modal-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #8b949e;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .ctd-form-group {
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+
+    .ctd-form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #8b949e;
+        font-size: 0.9rem;
+    }
+
+    .ctd-form-group input,
+    .ctd-form-group select {
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid #30363d;
+        border-radius: 6px;
+        color: #f0f6fc;
+        font-family: inherit;
+    }
+
+    /* Auth Modal Specifics */
+    .ctd-auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #8b949e;
+    }
+
+    .ctd-auth-footer a {
+        color: hsl(250, 70%, 60%);
+        text-decoration: none;
+    }
+
+    /* Loaders */
+    .sc-loader {
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border-left-color: #7164f0;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        #ctd-job-board-root .hero-content h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div id="ctd-job-board-root">
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>Encuentra tu trabajo ideal en Salud</h1>
+            <p>Únete a un equipo comprometido con el bienestar. Explora nuestras ofertas y postúlate hoy mismo.</p>
+            <a href="#jobs-section" class="btn-primary" style="margin-top: 1rem;">Ver Ofertas</a>
+        </div>
+        <div class="hero-background">
+            <div class="orb"></div>
+        </div>
+    </header>
+
+    <!-- Job Board Section -->
+    <section id="jobs-section" class="jobs-container">
+        <div class="section-header">
+            <h2>Oportunidades Disponibles</h2>
+            <p style="color:var(--text-muted)">Selecciona una vacante para ver más detalles y aplicar.</p>
+        </div>
+
+        <!-- Job Grid (Injected via JS) -->
+        <div id="ctd-job-grid" class="job-grid">
+            <!-- Loading State -->
+            <div class="loading-jobs" style="text-align:center; width:100%; grid-column: 1/-1;">
+                <div class="sc-loader"></div>
+                <p class="text-muted" style="margin-top:10px;">Cargando ofertas...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Modal -->
+    <div id="ctd-apply-modal" class="ctd-modal-overlay hidden">
+        <div class="ctd-modal">
+            <button class="ctd-modal-close" id="ctd-close-modal"><i class="ri-close-line"></i></button>
+            <div class="modal-header">
+                <h3 id="ctd-modal-job-title">Aplicar a Vacante</h3>
+                <p id="ctd-modal-job-id" class="text-sm text-muted">ID: ---</p>
+            </div>
+            <div class="modal-body">
+                <form id="ctd-application-form">
+                    <input type="hidden" id="ctd-app-job-id" name="jobId">
+
+                    <div class="ctd-form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" name="fullName" required placeholder="Tu nombre">
+                    </div>
+
+                    <div class="ctd-form-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" name="email" required placeholder="tu@email.com">
+                    </div>
+
+                    <div class="ctd-form-group">
+                        <label>Teléfono / WhatsApp</label>
+                        <input type="tel" name="phone" required placeholder="+57 300...">
+                    </div>
+
+                    <div class="ctd-form-group">
+                        <label>CV / Hoja de Vida (PDF)</label>
+                        <input type="file" name="cvFile" accept=".pdf,.doc,.docx" required>
+                        <small style="color:#8b949e">Sube tu CV (Máx 5MB).</small>
+                    </div>
+
+                    <div class="ctd-form-group" style="text-align:center;">
+                        <button type="submit" class="btn-primary w-100">Enviar Postulación</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        // Escoping vars to avoid global conflicts
+        const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbRTSuhy6ieh4v29Dx95WbFuVOyx5Tey-m64TpuHegS5JFV25Q_2rkl54_u1pu8ZrM/exec';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initJobBoard();
+        });
+
+        function initJobBoard() {
+            const grid = document.getElementById('ctd-job-grid');
+            if (!grid) return; // Not on page
+
+            // Fetch Jobs
+            fetch(GOOGLE_APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'get_jobs' })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    grid.innerHTML = '';
+                    if (data.success && data.jobs.length > 0) {
+                        data.jobs.forEach(job => {
+                            grid.appendChild(createJobCard(job));
+                        });
+                    } else {
+                        grid.innerHTML = '<p class="text-muted" style="text-align:center; grid-column: 1/-1;">No hay vacantes disponibles por el momento.</p>';
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    grid.innerHTML = '<p class="text-muted" style="text-align:center; grid-column: 1/-1;">Error cargando vacantes.</p>';
+                });
+
+            // Setup Application Form Listener
+            const appForm = document.getElementById('ctd-application-form');
+            if (appForm) {
+                appForm.addEventListener('submit', handleAppSubmit);
+            }
+
+            // Close Modal Listener
+            const closeBtn = document.getElementById('ctd-close-modal');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    document.getElementById('ctd-apply-modal').classList.remove('active');
+                });
+            }
+        }
+
+        function createJobCard(job) {
+            const card = document.createElement('div');
+            card.className = 'job-card';
+            card.innerHTML = `
+            <div>
+                <h3 class="job-role">${job.title}</h3>
+                <div class="job-meta">
+                    <span class="job-location"><i class="ri-map-pin-line"></i> ${job.location}</span>
+                    <span class="job-type"><i class="ri-time-line"></i> ${job.type}</span>
+                </div>
+                <p class="job-desc">${job.description}</p>
+            </div>
+            <div class="job-footer">
+                <button type="button" class="btn-outline" data-id="${job.id}" data-title="${job.title}">Aplicar Ahora</button>
+            </div>
+        `;
+
+            // Add event listener to button immediately
+            const btn = card.querySelector('button');
+            btn.addEventListener('click', () => {
+                openApplyModal(job.id, job.title);
+            });
+
+            return card;
+        }
+
+        function openApplyModal(jobId, jobTitle) {
+            const m = document.getElementById('ctd-apply-modal');
+            document.getElementById('ctd-modal-job-title').innerText = 'Aplicar a: ' + jobTitle;
+            document.getElementById('ctd-modal-job-id').innerText = 'ID: ' + jobId;
+            document.getElementById('ctd-app-job-id').value = jobId;
+            m.classList.add('active');
+        }
+
+        async function handleAppSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'Enviando...';
+            btn.disabled = true;
+
+            const formData = new FormData(e.target);
+
+            // Convert File to Base64
+            const cvFile = formData.get('cvFile');
+            let cvBase64 = null;
+            if (cvFile && cvFile.size > 0) {
+                cvBase64 = await toBase64(cvFile);
+            }
+
+            const payload = {
+                action: 'apply_job',
+                jobId: formData.get('jobId'),
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                cvFile: cvBase64
+            };
+
+            try {
+                const res = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    alert('¡Postulación enviada con éxito!');
+                    document.getElementById('ctd-apply-modal').classList.remove('active');
+                    e.target.reset();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error de conexión al enviar.');
+                console.error(error);
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const content = reader.result.split(',')[1];
+                    resolve({
+                        data: content,
+                        mimeType: file.type,
+                        name: file.name
+                    });
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+    })();
+</script>

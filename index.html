@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotidiano IPS - Portal de Empleo</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="ri-heart-pulse-fill"></i> Cotidiano IPS
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Vacantes</a>
+                <a href="#" id="open-auth" class="nav-link">Ingresar</a>
+                <a href="status.html" class="btn-check-status">Consultar Estado</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>Encuentra tu trabajo ideal en Salud</h1>
+            <p>Únete a un equipo comprometido con el bienestar. Explora nuestras ofertas y postúlate hoy mismo.</p>
+            <a href="#jobs-section" class="btn-primary">Ver Ofertas</a>
+        </div>
+        <div class="hero-background">
+            <div class="orb"></div>
+        </div>
+    </header>
+
+    <!-- Job Board Section -->
+    <section id="jobs-section" class="jobs-container">
+        <div class="section-header">
+            <h2>Oportunidades Disponibles</h2>
+            <p>Selecciona una vacante para ver más detalles y aplicar.</p>
+        </div>
+
+        <!-- Job Grid (Injected via JS) -->
+        <div id="job-grid" class="job-grid">
+            <!-- Loading State -->
+            <div class="loading-jobs">
+                <div class="sc-loader active" style="border-color: var(--primary);"></div>
+                <p>Cargando ofertas...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Modal -->
+    <div id="apply-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <button class="modal-close" id="close-modal"><i class="ri-close-line"></i></button>
+            <div class="modal-header">
+                <h3 id="modal-job-title">Aplicar a Vacante</h3>
+                <p id="modal-job-id" class="text-sm text-muted">ID: ---</p>
+            </div>
+            <div class="modal-body">
+                <form id="application-form">
+                    <input type="hidden" id="app-job-id" name="jobId">
+
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" name="fullName" required placeholder="Tu nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" name="email" required placeholder="tu@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono / WhatsApp</label>
+                        <input type="tel" name="phone" required placeholder="+57 300...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>CV / Hoja de Vida (PDF)</label>
+                        <input type="file" name="cvFile" accept=".pdf,.doc,.docx" required>
+                        <small>Sube tu CV (Máx 5MB).</small>
+                    </div>
+
+                    <button type="submit" class="btn-primary w-100">Enviar Postulación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal auth-modal">
+            <button class="modal-close" id="close-auth"><i class="ri-close-line"></i></button>
+
+            <!-- Login Form -->
+            <div id="login-section">
+                <div class="modal-header">
+                    <h3>Iniciar Sesión</h3>
+                    <p>Accede para gestionar vacantes o ver tu perfil.</p>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" name="email" required placeholder="tu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" required placeholder="******">
+                        </div>
+                        <button type="submit" class="btn-primary w-100">Ingresar</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>¿No tienes cuenta? <a href="#" id="switch-to-register">Suscríbete aquí</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Form (Hidden by default) -->
+            <div id="register-section" class="hidden">
+                <div class="modal-header">
+                    <h3>Suscribirse</h3>
+                    <p>Únete a nuestra base de talentos.</p>
+                </div>
+                <div class="modal-body">
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label>Nombre Completo</label>
+                            <input type="text" name="name" required placeholder="Tu Nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" name="email" required placeholder="tu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" required placeholder="Crea una contraseña">
+                        </div>
+                        <button type="submit" class="btn-primary w-100">Registrarme</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>¿Ya tienes cuenta? <a href="#" id="switch-to-login">Inicia Sesión</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Cotidiano IPS. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

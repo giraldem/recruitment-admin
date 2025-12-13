@@ -1,0 +1,223 @@
+<!-- 
+    INSTRUCCIONES DIVI (TIMELINE HORIZONTAL):
+    1. Borra todo el contenido anterior.
+    2. Pega este bloque completo.
+-->
+
+<style>
+    /* Contenedor Principal */
+    .ctd-timeline {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px 0;
+        font-family: 'Outfit', sans-serif;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        /* Permite que baje en móvil */
+        gap: 15px;
+        /* Espacio entre tarjetas */
+        justify-content: center;
+    }
+
+    .ctd-timeline * {
+        box-sizing: border-box;
+    }
+
+    /* Items */
+    .ctd-timeline-item {
+        flex: 1 1 150px;
+        /* Crecen igual, mínimo 150px */
+        display: flex;
+        flex-direction: column;
+        min-width: 140px;
+        position: relative;
+    }
+
+    /* Tarjeta */
+    .ctd-timeline-card {
+        background: #f7fafc;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        height: 100%;
+        /* Misma altura para todas */
+        transition: all 0.3s ease;
+        text-align: center;
+        /* Centrado para estilo horizontal */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Badge (Número) */
+    .step-badge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #cbd5e0;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+        transition: background 0.3s ease;
+    }
+
+    /* Título */
+    .ctd-timeline-card h4 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #2d3748;
+        line-height: 1.2;
+    }
+
+    /* Descripción */
+    .ctd-timeline-card p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #718096;
+        line-height: 1.4;
+    }
+
+    /* -- ESTADOS Y HOVER -- */
+
+    /* Paso 1 Activo */
+    .ctd-timeline-item.active .step-badge {
+        background: #4ade80;
+        /* Verde */
+    }
+
+    .ctd-timeline-item.active .ctd-timeline-card {
+        border-color: #4ade80;
+        background: #f0fdf4;
+    }
+
+    /* Hover en Links */
+    .ctd-timeline-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        height: 100%;
+    }
+
+    .ctd-timeline-link:hover .ctd-timeline-card {
+        transform: translateY(-5px);
+        border-color: #3182ce;
+        background: #fff;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .ctd-timeline-link:hover .step-badge {
+        background: #3182ce;
+        /* Azul */
+    }
+
+    /* RESPONSIVE: En pantallas muy pequeñas (<600px), se vuelve vertical */
+    @media (max-width: 768px) {
+        .ctd-timeline-item {
+            flex: 1 1 100%;
+            /* Ocupa todo el ancho */
+        }
+
+        .ctd-timeline-card {
+            flex-direction: row;
+            /* Icono a la izquierda en móvil */
+            text-align: left;
+            align-items: flex-start;
+            padding: 1.2rem;
+        }
+
+        .step-badge {
+            width: 28px;
+            height: 28px;
+            font-size: 0.9rem;
+            margin-right: 12px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+    }
+</style>
+
+<div class="ctd-timeline">
+
+    <!-- STEP 1: Get Advice -->
+    <div class="ctd-timeline-item active">
+        <a href="https://wa.me/573137333094" class="ctd-timeline-link" target="_blank" rel="noopener noreferrer">
+            <div class="ctd-timeline-card">
+                <div class="step-badge">1</div>
+                <div>
+                    <h4>Get Advice</h4>
+                    <p>Contact us via WhatsApp.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- STEP 2: Application -->
+    <div class="ctd-timeline-item">
+        <a href="https://forms.gle/qhSTDUBX7f8R8LWt6" class="ctd-timeline-link" target="_blank"
+            rel="noopener noreferrer">
+            <div class="ctd-timeline-card">
+                <div class="step-badge">2</div>
+                <div>
+                    <h4>Application</h4>
+                    <p>Submit your CV.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- STEP 3: Profile Review -->
+    <div class="ctd-timeline-item">
+        <a href="https://www.cotidianoips.com/check-your-application-status/" class="ctd-timeline-link" target="_blank"
+            rel="noopener noreferrer">
+            <div class="ctd-timeline-card">
+                <div class="step-badge">3</div>
+                <div>
+                    <h4>Profile Review</h4>
+                    <p>Check status online.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- STEP 4: Interview -->
+    <div class="ctd-timeline-item">
+        <div class="ctd-timeline-card">
+            <div class="step-badge">4</div>
+            <div>
+                <h4>Interview</h4>
+                <p>With employer/recruiter.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 5: Contract -->
+    <div class="ctd-timeline-item">
+        <div class="ctd-timeline-card">
+            <div class="step-badge">5</div>
+            <div>
+                <h4>Contract</h4>
+                <p>Sign & Work Permit.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 6: Travel -->
+    <div class="ctd-timeline-item">
+        <div class="ctd-timeline-card">
+            <div class="step-badge">6</div>
+            <div>
+                <h4>Travel</h4>
+                <p>Arrival & Start.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
