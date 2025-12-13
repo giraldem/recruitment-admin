@@ -1,6 +1,6 @@
 // CONFIGURATION
 // Replace these with actual values for production
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbRTSuhy6ieh4v29Dx95WbFuVOyx5Tey-m64TpuHegS5JFV25Q_2rkl54_u1pu8ZrM/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQyxPNO2D73WYPyEtY1HERcai0Nju9ix3CeFuNYUnTCoK_JCAxeKEqA93S4usY8jrv/exec';
 const GOOGLE_FORM_URL = 'https://forms.gle/DonmHZxvkeXXNujc8'; // Link final vinculado al Sheet
 const RECAPTCHA_SITE_KEY = '6LdfIiosAAAAAD9xERDxjK2y7Q67zSKXnwz0BAZ7';
 
@@ -282,13 +282,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Helper for Modal (Global Scope needed for onclick in HTML)
-function openApplyModal(jobId, jobTitle) {
+window.openApplyModal = function (jobId, jobTitle) {
     const m = document.getElementById('apply-modal');
     document.getElementById('modal-job-title').innerText = 'Aplicar a: ' + jobTitle;
     document.getElementById('modal-job-id').innerText = 'ID: ' + jobId;
     document.getElementById('app-job-id').value = jobId;
     m.classList.add('active');
+};
+
+const closeModalBtn = document.getElementById('close-modal');
+if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+        document.getElementById('apply-modal').classList.remove('active');
+    });
 }
-document.getElementById('close-modal').addEventListener('click', () => {
-    document.getElementById('apply-modal').classList.remove('active');
+
+// Close on click outside
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            overlay.classList.remove('active');
+        }
+    });
+});
 });
