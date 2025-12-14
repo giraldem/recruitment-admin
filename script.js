@@ -222,11 +222,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     else alert('Ya estás logueado como ' + u.name);
                 } else {
                     console.log('Opening auth modal');
-                    authModal.classList.add('active');
+                    authModal.classList.remove('hidden');
+                    // Small delay to allow display:block to apply before opacity transition
+                    requestAnimationFrame(() => {
+                        authModal.classList.add('active');
+                    });
                 }
             });
         }
-        if (closeAuthBtn) closeAuthBtn.addEventListener('click', () => authModal.classList.remove('active'));
+        if (closeAuthBtn) closeAuthBtn.addEventListener('click', () => {
+            authModal.classList.remove('active');
+            setTimeout(() => authModal.classList.add('hidden'), 300); // Wait for transition
+        });
 
         // Switchers
         const switchReg = document.getElementById('switch-to-register');
@@ -255,14 +262,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }).then(r => r.json());
 
             if (res.success) {
-                localStorage.setItem('user', JSON.stringify(res.user));
-                authModal.classList.remove('active');
-                if (res.user.role === 'admin') window.location.href = 'admin.html';
-                else location.reload();
-            } else {
-                alert(res.message);
-            }
-        });
+                if (res.success) {
+                    localStorage.setItem('user', JSON.stringify(res.user));
+                    authModal.classList.remove('active');
+                    setTimeout(() => authModal.classList.add('hidden'), 300);
+                    if (res.user.role === 'admin') window.location.href = 'admin.html';
+                    else location.reload();
+                } else {
+                    alert(res.message);
+                }
+            });
 
         // Register Submit
         const regForm = document.getElementById('register-form');
@@ -290,13 +299,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('modal-job-title').innerText = 'Aplicar a: ' + jobTitle;
         document.getElementById('modal-job-id').innerText = 'ID: ' + jobId;
         document.getElementById('app-job-id').value = jobId;
-        m.classList.add('active');
+        m.classList.remove('hidden');
+        requestAnimationFrame(() => m.classList.add('active'));
     };
 
     const closeModalBtn = document.getElementById('close-modal');
     if (closeModalBtn) {
         closeModalBtn.addEventListener('click', () => {
-            document.getElementById('apply-modal').classList.remove('active');
+            const m = document.getElementById('apply-modal');
+            m.classList.remove('active');
+            setTimeout(() => m.classList.add('hidden'), 300);
         });
     }
 
@@ -305,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) {
                 overlay.classList.remove('active');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
             }
         });
     });
