@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isStatusPage) initStatusPage();
     if (isJobBoard) initJobBoard();
 
+    console.log('Script initialized (v1.2)');
     // Auth Logic (Shared)
     initAuth();
 
@@ -211,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ... (Keep existing Auth logic roughly same, just consolidated)
 
         if (openAuthBtn) {
+            console.log('Auth button found, attaching listener');
             openAuthBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const user = localStorage.getItem('user');
@@ -219,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (u.role === 'admin') window.location.href = 'admin.html';
                     else alert('Ya estás logueado como ' + u.name);
                 } else {
+                    console.log('Opening auth modal');
                     authModal.classList.add('active');
                 }
             });
