@@ -279,30 +279,30 @@ document.addEventListener('DOMContentLoaded', () => {
             openAuthBtn.innerText = u.name;
         }
     }
-});
 
-// Helper for Modal (Global Scope needed for onclick in HTML)
-window.openApplyModal = function (jobId, jobTitle) {
-    const m = document.getElementById('apply-modal');
-    document.getElementById('modal-job-title').innerText = 'Aplicar a: ' + jobTitle;
-    document.getElementById('modal-job-id').innerText = 'ID: ' + jobId;
-    document.getElementById('app-job-id').value = jobId;
-    m.classList.add('active');
-};
 
-const closeModalBtn = document.getElementById('close-modal');
-if (closeModalBtn) {
-    closeModalBtn.addEventListener('click', () => {
-        document.getElementById('apply-modal').classList.remove('active');
+    // Helper for Modal (Global Scope needed for onclick in HTML)
+    window.openApplyModal = function (jobId, jobTitle) {
+        const m = document.getElementById('apply-modal');
+        document.getElementById('modal-job-title').innerText = 'Aplicar a: ' + jobTitle;
+        document.getElementById('modal-job-id').innerText = 'ID: ' + jobId;
+        document.getElementById('app-job-id').value = jobId;
+        m.classList.add('active');
+    };
+
+    const closeModalBtn = document.getElementById('close-modal');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            document.getElementById('apply-modal').classList.remove('active');
+        });
+    }
+
+    // Close on click outside
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('active');
+            }
+        });
     });
-}
-
-// Close on click outside
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            overlay.classList.remove('active');
-        }
-    });
-});
 });
