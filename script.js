@@ -1,6 +1,6 @@
 // CONFIGURATION
 // Replace these with actual values for production
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQyxPNO2D73WYPyEtY1HERcai0Nju9ix3CeFuNYUnTCoK_JCAxeKEqA93S4usY8jrv/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzsIaLUT5s2Fyga5XE_H9jhXJsG7JB8DKWRjZSgQaWMvF0OGy97RmlRrZ6URMQKptld/exec';
 const GOOGLE_FORM_URL = 'https://forms.gle/DonmHZxvkeXXNujc8'; // Link final vinculado al Sheet
 const RECAPTCHA_SITE_KEY = '6LdfIiosAAAAAD9xERDxjK2y7Q67zSKXnwz0BAZ7';
 
