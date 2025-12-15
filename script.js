@@ -1,5 +1,5 @@
 // CONFIGURATION
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzsIaLUT5s2Fyga5XE_H9jhXJsG7JB8DKWRjZSgQaWMvF0OGy97RmlRrZ6URMQKptld/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySm_pemkD4Vu_UcjPCKPGb9au1HW5GNzZ6WC5Ij7MVoPMS9wyJJ1RUBPLlyBkQBdYWPw/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
 
