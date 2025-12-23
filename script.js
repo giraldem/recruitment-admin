@@ -1,5 +1,5 @@
 // CONFIGURATION
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySm_pemkD4Vu_UcjPCKPGb9au1HW5GNzZ6WC5Ij7MVoPMS9wyJJ1RUBPLlyBkQBdYWPw/exec';
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxXhPZDRv6A04NN7XgzCoW6JHpz1cAoCKLOJrDKNPnloR8I3LenpRxSab-I2l8PbEf/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -19,16 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'get_jobs' })
         })
-        .then(res => res.json())
-        .then(data => {
-            grid.innerHTML = '';
-            if (data.success && data.jobs.length) {
-                data.jobs.forEach(job => grid.appendChild(createJobCard(job)));
-            } else {
-                grid.innerHTML = '<p>No hay vacantes disponibles.</p>';
-            }
-        })
-        .catch(() => grid.innerHTML = '<p>Error cargando vacantes.</p>');
+            .then(res => res.json())
+            .then(data => {
+                grid.innerHTML = '';
+                if (data.success && data.jobs.length) {
+                    data.jobs.forEach(job => grid.appendChild(createJobCard(job)));
+                } else {
+                    grid.innerHTML = '<p>No hay vacantes disponibles.</p>';
+                }
+            })
+            .catch(() => grid.innerHTML = '<p>Error cargando vacantes.</p>');
 
         const appForm = document.getElementById('application-form');
         if (appForm) appForm.addEventListener('submit', handleAppSubmit);

@@ -1,0 +1,668 @@
+<div id="testimonios-app">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap');
+
+        /* CONFIGURACIÓN Y VARIABLES */
+        #testimonios-app {
+            --bg-color: #0d1117;
+            --surface-color: #161b22;
+            --surface-hover: #21262d;
+            --primary-hue: 250;
+            --primary: hsl(var(--primary-hue), 70%, 60%);
+            --primary-hover: hsl(var(--primary-hue), 70%, 50%);
+            --text-color: #f0f6fc;
+            --text-muted: #8b949e;
+            --border-color: #30363d;
+            --success: #238636;
+            --error: #da3633;
+
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        #testimonios-app * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        #testimonios-app .main-container {
+            width: 95%;
+            max-width: 600px;
+            padding: 4rem 2.5rem;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            margin: 60px auto;
+            color: var(--text-color);
+        }
+
+        #testimonios-app .orb {
+            position: absolute;
+            top: -150px;
+            left: -150px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(113, 100, 240, 0.1) 0%, transparent 70%);
+            z-index: 0;
+            filter: blur(40px);
+        }
+
+        #testimonios-app .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        #testimonios-app h1,
+        #testimonios-app h2 {
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            line-height: 1.2;
+            display: block;
+        }
+
+        #testimonios-app p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        #testimonios-app .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        #testimonios-app label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        #testimonios-app input[type="text"],
+        #testimonios-app input[type="email"],
+        #testimonios-app textarea,
+        #testimonios-app select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        #testimonios-app input:focus,
+        #testimonios-app textarea:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.4);
+            border-color: var(--primary);
+        }
+
+        #testimonios-app .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        #testimonios-app .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(113, 100, 240, 0.3);
+        }
+
+        #testimonios-app .step {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        #testimonios-app .step.active {
+            display: block;
+        }
+
+        #testimonios-app .step-example {
+            background: rgba(113, 100, 240, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+
+        #testimonios-app .step-example strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #testimonios-app .media-options {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        #testimonios-app .media-btn {
+            flex: 1;
+            padding: 15px;
+            background: var(--surface-hover);
+            border-radius: 12px;
+            color: var(--text-color);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        #testimonios-app .media-btn:hover,
+        #testimonios-app .media-btn.active {
+            background: var(--primary);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #testimonios-app .preview-container {
+            margin-top: 1.5rem;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            border: 1px solid var(--border-color);
+        }
+
+        #testimonios-app video,
+        #testimonios-app audio {
+            width: 100%;
+            display: block;
+        }
+
+        #testimonios-app .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            align-items: center;
+        }
+
+        #testimonios-app .btn-text {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 1rem;
+        }
+
+        /* MODAL CONSENTIMIENTO */
+        #testimonios-app .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        #testimonios-app .modal-content {
+            background: var(--surface-color);
+            padding: 40px;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+
+        #testimonios-app .modal-body {
+            overflow-y: auto;
+            margin: 20px 0;
+            padding-right: 15px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-align: justify;
+            /* Texto justificado */
+        }
+
+        /* FIX PARA EL HEADER DE DIVI */
+        @media (max-width: 980px) {
+            #main-header .container {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+            }
+
+            #logo {
+                max-height: 60px !important;
+            }
+
+            .mobile_menu_bar {
+                position: relative !important;
+                top: 0 !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #testimonios-app .main-container {
+                padding: 3rem 1.5rem;
+                margin: 30px auto;
+            }
+
+            #testimonios-app h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+
+    <div class="main-container">
+        <div class="orb"></div>
+        <div class="content">
+
+            <!-- SECCIÓN LOGIN -->
+            <div id="section-login">
+                <h1>Tu experiencia es muy valiosa</h1>
+                <p>Queremos conocer tu historia con tus propias palabras y que ayudes a otros a dar el siguiente paso.
+                </p>
+
+                <div class="form-group">
+                    <label>Ingresa tu correo autorizado</label>
+                    <input type="email" id="email-login" placeholder="email@ejemplo.com">
+                </div>
+                <button class="btn" id="btn-login-app">Empezar</button>
+                <p id="login-msg-app" style="margin-top: 1rem; font-size: 0.9rem; color: var(--error);"></p>
+            </div>
+
+            <!-- SECCIÓN ENCUESTA -->
+            <div id="section-survey" style="display:none;">
+                <!-- PASO 1 -->
+                <div class="step" id="step-1">
+                    <h2>1. ¡Cuéntanos sobre ti!</h2>
+                    <p>Graba un video corto presentándote.</p>
+                    <div class="step-example">
+                        <strong>Ejemplo de qué decir:</strong>
+                        "Hola, me llamo Mariana, soy de Madrid. Fui seleccionada para el cargo de Bartender en el Blue
+                        Sun Hotel para la temporada de Abril 2026..."
+                    </div>
+                    <button class="btn" id="btn-record-bio" onclick="toggleBioRecording()">Grabar Video</button>
+                    <div id="bio-rec-indicator" style="display:none; color:var(--error); margin-top:10px;">🔴
+                        Grabando... <span id="bio-timer">00:00</span></div>
+                    <div class="preview-container" id="bio-preview"></div>
+                    <div class="nav-footer" style="justify-content: flex-end;">
+                        <button class="btn-text" onclick="nextStep(2)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- PASO 2 -->
+                <div class="step" id="step-2">
+                    <h2>2. Motivación</h2>
+                    <p>¿Qué te motivó a postularte?</p>
+                    <div class="step-example">
+                        <strong>Ejemplo de qué decir:</strong>
+                        "Me motivó la reputación del hotel y la oportunidad de perfeccionar mi inglés en un entorno
+                        internacional de alto nivel..."
+                    </div>
+                    <div class="media-options">
+                        <div class="media-btn" id="btn-step2-vid" onclick="toggleStepMedia(2, 'vid')">Video</div>
+                        <div class="media-btn" id="btn-step2-aud" onclick="toggleStepMedia(2, 'aud')">Audio</div>
+                    </div>
+                    <div id="step2-recorder-ui" style="display:none;">
+                        <button class="btn" id="btn-record-step2" onclick="toggleStepRecording(2)">Grabar</button>
+                        <div id="step2-rec-indicator" style="display:none; color:var(--error); margin-top:10px;">🔴
+                            Grabando... <span id="step2-timer">00:00</span></div>
+                    </div>
+                    <div class="preview-container" id="step2-preview"></div>
+                    <div class="nav-footer">
+                        <button class="btn-text" onclick="prevStep(1)">← Atrás</button>
+                        <button class="btn-text" onclick="nextStep(3)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- PASO 3 -->
+                <div class="step" id="step-3">
+                    <h2>3. Experiencia</h2>
+                    <p>¿Cómo fue tu proceso de selección?</p>
+                    <div class="step-example">
+                        <strong>Ejemplo de qué decir:</strong>
+                        "Al principio tenía dudas por lo atractivo del proyecto, pero el acompañamiento de Cotidiano IPS
+                        me dio mucha seguridad..."
+                    </div>
+                    <div class="media-options">
+                        <div class="media-btn" id="btn-step3-vid" onclick="toggleStepMedia(3, 'vid')">Video</div>
+                        <div class="media-btn" id="btn-step3-aud" onclick="toggleStepMedia(3, 'aud')">Audio</div>
+                    </div>
+                    <div id="step3-recorder-ui" style="display:none;">
+                        <button class="btn" id="btn-record-step3" onclick="toggleStepRecording(3)">Grabar</button>
+                        <div id="step3-rec-indicator" style="display:none; color:var(--error); margin-top:10px;">🔴
+                            Grabando... <span id="step3-timer">00:00</span></div>
+                    </div>
+                    <div class="preview-container" id="step3-preview"></div>
+                    <div class="nav-footer">
+                        <button class="btn-text" onclick="prevStep(2)">← Atrás</button>
+                        <button class="btn-text" onclick="nextStep(4)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- PASO 4 -->
+                <div class="step" id="step-4">
+                    <h2>4. Lo más valorado</h2>
+                    <p>¿Qué fue lo que más apreciaste?</p>
+                    <div class="step-example">
+                        <strong>Ejemplo de qué decir:</strong>
+                        "Lo que más valoré fue la rapidez en los trámites y la atención personalizada del equipo en cada
+                        duda que tuve..."
+                    </div>
+                    <div class="media-options">
+                        <div class="media-btn" id="btn-step4-vid" onclick="toggleStepMedia(4, 'vid')">Video</div>
+                        <div class="media-btn" id="btn-step4-aud" onclick="toggleStepMedia(4, 'aud')">Audio</div>
+                    </div>
+                    <div id="step4-recorder-ui" style="display:none;">
+                        <button class="btn" id="btn-record-step4" onclick="toggleStepRecording(4)">Grabar</button>
+                        <div id="step4-rec-indicator" style="display:none; color:var(--error); margin-top:10px;">🔴
+                            Grabando... <span id="step4-timer">00:00</span></div>
+                    </div>
+                    <div class="preview-container" id="step4-preview"></div>
+                    <div class="nav-footer">
+                        <button class="btn-text" onclick="prevStep(3)">← Atrás</button>
+                        <button class="btn-text" onclick="nextStep(5)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- PASO 5 -->
+                <div class="step" id="step-5">
+                    <h2>5. Consejo</h2>
+                    <p>¿Qué le dirías a otros postulantes?</p>
+                    <div class="step-example">
+                        <strong>Ejemplo de qué decir:</strong>
+                        "Mi consejo es que no tengan miedo, que confíen en el equipo y que se preparen con entusiasmo
+                        para esta gran oportunidad..."
+                    </div>
+                    <button class="btn" id="btn-record-step5" onclick="toggleStepRecording(5)">Grabar Video</button>
+                    <div id="step5-rec-indicator" style="display:none; color:var(--error); margin-top:10px;">🔴
+                        Grabando... <span id="step5-timer">00:00</span></div>
+                    <div class="preview-container" id="step5-preview"></div>
+                    <div class="nav-footer">
+                        <button class="btn-text" onclick="prevStep(4)">← Atrás</button>
+                        <button class="btn-text" onclick="nextStep(6)">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- PASO 6 -->
+                <div class="step" id="step-6">
+                    <h2>6. Autorización</h2>
+                    <div class="form-group">
+                        <label>¿Autorizas el uso de tu testimonio?</label>
+                        <select id="q8_authorize">
+                            <option value="Si autorizo">Si autorizo</option>
+                            <option value="No autorizo">No autorizo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cómo aparecer:</label>
+                        <select id="q9_display">
+                            <option value="Solo nombre">Solo nombre</option>
+                            <option value="Anónimo">Anónimo</option>
+                        </select>
+                    </div>
+                    <div class="nav-footer">
+                        <button class="btn-text" onclick="prevStep(5)">← Atrás</button>
+                        <button class="btn" id="btn-finish" onclick="submitForm()"
+                            style="width: auto; padding: 12px 30px;">Finalizar</button>
+                    </div>
+                </div>
+
+                <!-- FINAL -->
+                <div class="step" id="step-final">
+                    <h2 style="text-align:center;">¡Gracias por compartir!</h2>
+                    <p style="text-align:center;">Tu historia es una inspiración. 💙</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONSENTIMIENTO -->
+    <div id="consent-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h2>Cláusula de Autorización de Imagen</h2>
+            <div class="modal-body" id="consent-text"></div>
+            <div style="text-align:right; margin-top:20px;">
+                <button class="btn" onclick="closeAndStart()" style="width:auto; padding: 12px 30px;">Acepto y
+                    Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwKwAR4vfWIdFUbI6m-qsPv1r5l3uMqAAOHs3bDcspn0ug9WoPom1f5tQytWwKtQn6QIQ/exec';
+            let currentStep = 1;
+            let mediaStream = null, mediaRecorder = null, recordedChunks = [];
+            let bioVideoBlob = null, stepMediaBlobs = {}, stepMediaTypes = { 5: 'vid' }, recordingStates = {}, stepIntervals = {};
+
+            window.nextStep = (n) => {
+                document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+                const next = document.getElementById('step-' + n) || document.getElementById('step-final');
+                if (next) { next.classList.add('active'); currentStep = n; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            };
+
+            window.prevStep = (n) => {
+                document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+                document.getElementById('step-' + n).classList.add('active');
+                currentStep = n;
+                if (mediaStream) mediaStream.getTracks().forEach(t => t.stop());
+            };
+
+            window.toggleBioRecording = async () => {
+                const btn = document.getElementById('btn-record-bio');
+                if (btn.textContent.includes('Detener')) {
+                    mediaRecorder.stop();
+                    btn.textContent = 'Grabar de nuevo';
+                    return;
+                }
+                try {
+                    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+                    mediaRecorder = new MediaRecorder(mediaStream);
+                    recordedChunks = [];
+                    mediaRecorder.ondataavailable = e => recordedChunks.push(e.data);
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            bioVideoBlob = reader.result;
+                            document.getElementById('bio-preview').innerHTML = `<video src="${URL.createObjectURL(blob)}" controls></video>`;
+                            document.getElementById('bio-preview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(blob);
+                        mediaStream.getTracks().forEach(t => t.stop());
+                        document.getElementById('bio-rec-indicator').style.display = 'none';
+                    };
+                    mediaRecorder.start();
+                    btn.textContent = 'Detener';
+                    document.getElementById('bio-rec-indicator').style.display = 'block';
+                } catch (e) { alert("Error: " + e); }
+            };
+
+            window.toggleStepMedia = (s, t) => {
+                stepMediaTypes[s] = t;
+                document.querySelectorAll('#step-' + s + ' .media-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('btn-step' + s + '-' + t).classList.add('active');
+                document.getElementById('step' + s + '-recorder-ui').style.display = 'block';
+            };
+
+            window.toggleStepRecording = async (s) => {
+                const btn = document.getElementById('btn-record-step' + s);
+                if (btn.textContent === 'Detener') {
+                    mediaRecorder.stop();
+                    btn.textContent = 'Grabar de nuevo';
+                    return;
+                }
+                try {
+                    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: stepMediaTypes[s] === 'vid' });
+                    mediaRecorder = new MediaRecorder(mediaStream);
+                    recordedChunks = [];
+                    mediaRecorder.ondataavailable = e => recordedChunks.push(e.data);
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(recordedChunks, { type: stepMediaTypes[s] === 'vid' ? 'video/webm' : 'audio/webm' });
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            stepMediaBlobs[s] = reader.result;
+                            document.getElementById('step' + s + '-preview').innerHTML = stepMediaTypes[s] === 'vid'
+                                ? `<video src="${URL.createObjectURL(blob)}" controls></video>`
+                                : `<audio src="${URL.createObjectURL(blob)}" controls></audio>`;
+                            document.getElementById('step' + s + '-preview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(blob);
+                        mediaStream.getTracks().forEach(t => t.stop());
+                        document.getElementById('step' + s + '-rec-indicator').style.display = 'none';
+                    };
+                    mediaRecorder.start();
+                    btn.textContent = 'Detener';
+                    document.getElementById('step' + s + '-rec-indicator').style.display = 'block';
+                } catch (e) { alert("Error: " + e); }
+            };
+
+            const CONSENT_MSG = `<strong>CLÁUSULA DE AUTORIZACIÓN PARA USO DE IMAGEN</strong><br><br>
+<strong>PROYECTO DE RECLUTAMIENTO INTERNACIONAL – CONSENTIMIENTO ELECTRÓNICO</strong><br><br>
+Al continuar en este formulario, el/la suscrito(a), identificado(a) con los datos suministrados, declara que actúa de manera libre, expresa, voluntaria e informada, y autoriza a LO COTIDIANO IPS, en calidad de responsable del tratamiento, para captar, almacenar, reproducir, transformar, publicar y difundir su imagen personal, voz, fotografías, videos, grabaciones audiovisuales y testimonio, recopilados a través de este formulario o durante su participación en el proyecto de reclutamiento y movilidad laboral internacional hacia Europa.<br><br>
+
+<strong>1. Finalidad del uso</strong><br>
+La presente autorización se otorga con fines institucionales, informativos, promocionales, publicitarios y de marketing, específicamente para:<br>
+• Estrategias de storytelling del proyecto de reclutamiento internacional<br>
+• Difusión de experiencias reales de candidatos y trabajadores vinculados<br>
+• Campañas de atracción de talento humano<br>
+• Publicación en redes sociales, sitios web, plataformas digitales y material audiovisual<br>
+• Presentaciones corporativas y comunicaciones institucionales dirigidas a mercados nacionales e internacionales<br><br>
+
+<strong>2. Alcance territorial y medios</strong><br>
+El uso del material autorizado podrá realizarse a nivel nacional e internacional, sin limitación territorial, en medios digitales, audiovisuales, gráficos, impresos y electrónicos, incluyendo redes sociales y plataformas de terceros.<br><br>
+
+<strong>3. Carácter gratuito</strong><br>
+El/la autorizante reconoce que esta autorización se concede a título gratuito, sin que genere derecho a compensación económica, regalías o contraprestación adicional.<br><br>
+
+<strong>4. Protección de datos personales – Colombia</strong><br>
+El tratamiento de los datos personales asociados a la imagen se realizará conforme a la Ley 1581 de 2012, el Decreto 1377 de 2013 y demás normas concordantes, garantizando los derechos de acceso, actualización, rectificación y supresión mediante solicitud escrita a los canales oficiales de LO COTIDIANO IPS.<br><br>
+
+<strong>5. Protección de datos personales – RGPD (Unión Europea)</strong><br>
+De conformidad con el Reglamento (UE) 2016/679 (RGPD), el/la autorizante declara que:<br>
+• Otorga su consentimiento explícito para el tratamiento de su imagen.<br>
+• Conoce que el tratamiento se fundamenta en el artículo 6.1.a (consentimiento) y artículo 9.2.a, cuando aplique.<br>
+• Tiene derecho a retirar su consentimiento en cualquier momento, sin que ello afecte la licitud del tratamiento realizado con anterioridad.<br>
+• Puede ejercer los derechos de acceso, rectificación, supresión, limitación, oposición y portabilidad, mediante solicitud escrita a los canales oficiales de la entidad.<br><br>
+
+<strong>6. Vigencia</strong><br>
+La autorización tendrá una vigencia indefinida, salvo revocatoria expresa por escrito. La revocatoria no afectará el uso legítimo del material ya publicado antes de su solicitud.<br><br>
+
+<strong>7. Validez del consentimiento electrónico</strong><br>
+El/la autorizante declara que la información suministrada en este formulario es veraz y reconoce que la acceptance mediante la opción “Acepto” constituye una manifestación inequívoca de consentimiento, válida legalmente como prueba de autorización para el uso de imagen, testimonio y tratamiento de datos personales, aun cuando no exista firma manuscrita ni documento físico descargable.`;
+
+            document.getElementById('btn-login-app').onclick = async () => {
+                const btn = document.getElementById('btn-login-app');
+                const emailInput = document.getElementById('email-login');
+                const msgEl = document.getElementById('login-msg-app');
+                const email = emailInput.value.trim();
+
+                if (!email) {
+                    msgEl.textContent = "Por favor, ingresa tu correo.";
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = "Verificando...";
+                msgEl.textContent = "";
+
+                try {
+                    // Verificamos acceso en el backend
+                    const response = await fetch(SCRIPT_URL + "?action=get_access&email=" + encodeURIComponent(email));
+                    const result = await response.json();
+
+                    if (result.success) {
+                        localStorage.setItem('userEmail', email);
+                        document.getElementById('consent-text').innerHTML = CONSENT_MSG;
+                        document.getElementById('consent-modal').style.display = 'flex';
+                    } else {
+                        msgEl.textContent = "Correo no autorizado o no registrado.";
+                    }
+                } catch (e) {
+                    console.error(e);
+                    msgEl.textContent = "Error de conexión. Inténtalo de nuevo.";
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = "Empezar";
+                }
+            };
+
+            window.closeAndStart = () => {
+                document.getElementById('consent-modal').style.display = 'none';
+                document.getElementById('section-login').style.display = 'none';
+                document.getElementById('section-survey').style.display = 'block';
+                nextStep(1);
+            };
+
+            window.submitForm = async () => {
+                const btn = document.getElementById('btn-finish');
+                btn.disabled = true; btn.textContent = "Enviando...";
+                const data = {
+                    action: 'save_testimonial',
+                    email: localStorage.getItem('userEmail'),
+                    q8_authorize: document.getElementById('q8_authorize').value,
+                    q9_display: document.getElementById('q9_display').value,
+                    consent_accepted: true
+                };
+                for (let i = 2; i <= 5; i++) {
+                    if (stepMediaBlobs[i]) data['step' + i + 'Media'] = { data: stepMediaBlobs[i].split(',')[1], mimeType: stepMediaTypes[i] === 'vid' ? 'video/webm' : 'audio/webm' };
+                }
+                if (bioVideoBlob) data.bioVideo = { data: bioVideoBlob.split(',')[1], mimeType: 'video/webm' };
+
+                try {
+                    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+                    nextStep('final');
+                } catch (e) { alert("Error al enviar."); btn.disabled = false; btn.textContent = "Finalizar"; }
+            };
+        })();
+    </script>
+</div>

@@ -1,0 +1,375 @@
+:root {
+    --bg-color: #0d1117;
+    --surface-color: #161b22;
+    --surface-hover: #21262d;
+    --primary-hue: 250;
+    --primary: hsl(var(--primary-hue), 70%, 60%);
+    --primary-hover: hsl(var(--primary-hue), 70%, 50%);
+    --text-color: #f0f6fc;
+    --text-muted: #8b949e;
+    --border-color: #30363d;
+    --success: #238636;
+    --error: #da3633;
+    --glass: rgba(22, 27, 34, 0.7);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.main-container {
+    width: 90%;
+    max-width: 600px;
+    padding: 2rem;
+    background: var(--surface-color);
+    border: none;
+    border-radius: 20px;
+    box-shadow: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    top: -150px;
+    left: -150px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(113, 100, 240, 0.1) 0%, transparent 70%);
+    z-index: 0;
+    filter: blur(40px);
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+h1,
+h2 {
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: inherit;
+    transition: background 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    margin-top: 1rem;
+}
+
+.btn-outline:hover {
+    border-color: var(--text-color);
+}
+
+.step {
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.step.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Multimedia Buttons */
+.media-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.media-btn {
+    flex: 1;
+    min-width: 100px;
+    max-width: 130px;
+    padding: 12px 8px;
+    background: var(--surface-hover);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.step-example {
+    background: rgba(113, 100, 240, 0.1);
+    border: none;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+
+
+.media-btn:hover,
+.media-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.preview-container {
+    margin-top: 1rem;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+}
+
+video,
+audio {
+    width: 100%;
+}
+
+.recording-indicator {
+    color: var(--error);
+    font-size: 0.8rem;
+    display: none;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.pulse {
+    width: 10px;
+    height: 10px;
+    background: var(--error);
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--primary);
+    padding: 10px;
+    width: auto;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    display: inline-block;
+}
+
+.btn-text:hover {
+    color: var(--primary-hover);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    width: auto;
+}
+
+.btn-outline {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--text-color);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+    gap: 15px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: var(--surface-color);
+    border: none;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: none;
+    animation: slideUp 0.3s ease;
+}
+
+.modal-body {
+    margin: 20px 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-height: 300px;
+    overflow-y: auto;
+    color: rgba(255, 255, 255, 0.8);
+    padding-right: 10px;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-footer button {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    padding: 10px;
+}
+
+.modal-footer button:last-child {
+    color: var(--error);
+}
+
+.modal-footer button:hover {
+    opacity: 0.8;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

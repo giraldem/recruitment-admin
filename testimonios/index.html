@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Historia - Cotidiano</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="orb"></div>
+        <div class="content" id="login-section">
+            <h1>Tu experiencia es muy valiosa</h1>
+            <p>Queremos conocer tu historia con tus propias palabras y que ayudes a otros a dar el siguiente paso.</p>
+
+            <div class="form-group">
+                <label for="email">Ingresa tu correo autorizado</label>
+                <input type="email" id="email" placeholder="email@ejemplo.com">
+            </div>
+            <button class="btn" id="btn-login">Empezar</button>
+            <p id="login-msg" style="margin-top: 1rem; font-size: 0.9rem; color: var(--error);"></p>
+        </div>
+    </div>
+
+    <div id="consent-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h2 style="margin-top:0">Importante</h2>
+            <div class="modal-body" id="consent-text"></div>
+            <div class="modal-footer" style="justify-content: flex-end;">
+                <button onclick="closeAndRedirect()">Acepto y Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwRnaa3Y08XJbnbxO8KUB1c3Y9cevWsbMjDBwOPkQpo-SGbwo9xiv4Jnntjt_nn8OVdiA/exec';
+        const CONSENT_TEXT = `<strong>CLÁUSULA DE AUTORIZACIÓN PARA USO DE IMAGEN Y TESTIMONIO</strong><br><br>
+<strong>PROYECTO DE RECLUTAMIENTO INTERNACIONAL – CONSENTIMIENTO ELECTRÓNICO</strong><br><br>
+Al continuar en este formulario, el/la suscrito(a), identificado(a) con los datos suministrados, declara que actúa de manera libre, expresa, voluntaria e informada, y autoriza a LO COTIDIANO IPS, en calidad de responsable del tratamiento, para captar, almacenar, reproducir, transformar, publicar y difundir su imagen personal, voz, fotografías, videos, grabaciones audiovisuales y testimonio, recopilados a través de este formulario o durante su participación en el proyecto de reclutamiento y movilidad laboral internacional hacia Europa.<br><br>
+
+<strong>1. Finalidad del uso</strong><br>
+La presente autorización se otorga con fines institucionales, informativos, promocionales, publicitarios y de marketing, específicamente para:<br>
+• Estrategias de storytelling del proyecto de reclutamiento internacional<br>
+• Difusión de experiencias reales de candidatos y trabajadores vinculados<br>
+• Campañas de atracción de talento humano<br>
+• Publicación en redes sociales, sitios web, plataformas digitales y material audiovisual<br>
+• Presentaciones corporativas y comunicaciones institucionales dirigidas a mercados nacionales e internacionales<br><br>
+
+<strong>2. Alcance territorial y medios</strong><br>
+El uso del material autorizado podrá realizarse a nivel nacional e internacional, sin limitación territorial, en medios digitales, audiovisuales, gráficos, impresos y electrónicos, incluyendo redes sociales y plataformas de terceros.<br><br>
+
+<strong>3. Carácter gratuito</strong><br>
+El/la autorizante reconoce que esta autorización se concede a título gratuito, sin que genere derecho a compensación económica, regalías o contraprestación adicional.<br><br>
+
+<strong>4. Protección de datos personales – Colombia</strong><br>
+El tratamiento de los datos personales asociados a la imagen se realizará conforme a la Ley 1581 de 2012, el Decreto 1377 de 2013 y demás normas concordantes, garantizando los derechos de acceso, actualización, rectificación y supresión mediante solicitud escrita a los canales oficiales de LO COTIDIANO IPS.<br><br>
+
+<strong>5. Protección de datos personales – RGPD (Unión Europea)</strong><br>
+De conformidad con el Reglamento (UE) 2016/679 (RGPD), el/la autorizante declara que:<br>
+• Otorga su consentimiento explícito para el tratamiento de su imagen y testimonio.<br>
+• Conoce que el tratamiento se fundamenta en el artículo 6.1.a (consentimiento) y artículo 9.2.a, cuando aplique.<br>
+• Tiene derecho a retirar su consentimiento en cualquier momento, sin que ello afecte la licitud del tratamiento realizado con anterioridad.<br>
+• Puede ejercer los derechos de acceso, rectificación, supresión, limitación, oposición y portabilidad, mediante solicitud escrita a los canales oficiales de la entidad.<br><br>
+
+<strong>6. Vigencia</strong><br>
+La autorización tendrá una vigencia indefinida, salvo revocatoria expresa por escrito. La revocatoria no afectará el uso legítimo del material ya publicado antes de su solicitud.<br><br>
+
+<strong>7. Validez del consentimiento electrónico</strong><br>
+El/la autorizante declara que la información suministrada en este formulario es veraz y reconoce que la acceptance mediante la opción “Acepto” constituye una manifestación inequívoca de consentimiento, válida legalmente como prueba de autorización para el uso de imagen, testimonio y tratamiento de datos personales, aun cuando no exista firma manuscrita ni documento físico descargable.`;
+
+        document.getElementById('btn-login').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const msg = document.getElementById('login-msg');
+
+            if (!email) {
+                msg.textContent = "Por favor ingresa tu correo.";
+                return;
+            }
+
+            msg.style.color = "var(--text-muted)";
+            msg.textContent = "Verificando...";
+
+            try {
+                // We keep the email in localStorage first
+                localStorage.setItem('userEmail', email);
+
+                // Show floating legal clause automatically
+                const modal = document.getElementById('consent-modal');
+                const textElem = document.getElementById('consent-text');
+                textElem.innerHTML = CONSENT_TEXT;
+                modal.style.display = 'flex';
+
+                // Fetch in background to not block the UI if possible, 
+                // but since it's no-cors we can't really wait for success
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'get_access', email: email })
+                });
+            } catch (err) {
+                msg.style.color = "var(--error)";
+                msg.textContent = "Error al conectar con el servidor.";
+            }
+        });
+
+        function closeAndRedirect() {
+            window.location.href = 'survey.html';
+        }
+    </script>
+</body>
+
+</html>

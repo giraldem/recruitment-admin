@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Experiencia - Cotidiano</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="orb"></div>
+        <div class="content" id="survey-container">
+            <!-- Step 1: Bio -->
+            <div class="step active" id="step-1">
+                <h2>1. ¡Cuéntanos sobre ti!</h2>
+                <p>Graba un video corto presentándote y dándonos la bienvenida a tu historia.</p>
+                <div
+                    style="background: rgba(113, 100, 240, 0.1); border-left: 4px solid var(--primary); padding: 15px; margin-bottom: 20px; border-radius: 8px; font-size: 0.9rem;">
+                    <strong>Ejemplo de qué decir:</strong><br>
+                    "Hola, me llamo Mariana, soy española y vivo en la ciudad de Madrid. Fui seleccionada para el cargo
+                    de Bartender en el Blue Sun Hotel para la temporada de Abril 2026..."
+                </div>
+
+                <div class="nav-footer">
+                    <button class="btn-text" onclick="prevStep(0)" style="visibility: hidden;">←</button>
+                    <div id="bio-recorder-ui">
+                        <button class="btn btn-sm" id="btn-record-bio" onclick="toggleBioRecording()">Grabar
+                            Video</button>
+                    </div>
+                    <button class="btn-text" onclick="nextStep(2)">Siguiente</button>
+                </div>
+                <div class="recording-indicator" id="bio-rec-indicator" style="display:none; margin-top: 10px;">
+                    <div class="pulse"></div> Grabando... <span id="bio-timer">00:00</span>
+                </div>
+                <div class="preview-container" id="bio-preview"></div>
+            </div>
+
+            <!-- Step 2: Motivation -->
+            <div class="step" id="step-2">
+                <h2>2. Motivación</h2>
+                <p>¿Qué te motivó a postularte a este proyecto?</p>
+
+                <div class="step-example">
+                    <strong>Ejemplo de qué decir:</strong><br>
+                    "Me motivó la gran reputación del hotel y la oportunidad de perfeccionar mi inglés mientras trabajo
+                    en un entorno internacional de alto nivel. Siempre he querido vivir la experiencia de trabajar en
+                    esta ciudad..."
+                </div>
+
+                <div class="media-options">
+                    <div class="media-btn" id="btn-step2-vid" onclick="toggleStepMedia(2, 'vid')"><span>📹</span>Video
+                    </div>
+                    <div class="media-btn" id="btn-step2-aud" onclick="toggleStepMedia(2, 'aud')"><span>🎙️</span>Audio
+                    </div>
+                </div>
+
+                <div id="step2-recorder-ui" style="display:none; margin-bottom: 1rem;">
+                    <button class="btn btn-sm" id="btn-record-step2" onclick="toggleStepRecording(2)">Grabar</button>
+                    <div class="recording-indicator" id="step2-rec-indicator" style="display:none">
+                        <div class="pulse"></div> Grabando... <span id="step2-timer">00:00</span>
+                    </div>
+                </div>
+
+                <div class="preview-container" id="step2-preview"></div>
+
+                <div class="nav-footer">
+                    <button class="btn-text" onclick="prevStep(1)">←</button>
+                    <button class="btn-text" onclick="nextStep(3)">Siguiente</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Experience -->
+            <div class="step" id="step-3">
+                <h2>3. Experiencia</h2>
+                <p>¿Cómo describirías tu experiencia durante el proceso de selección y acompañamiento?</p>
+
+                <div class="step-example">
+                    <strong>Ejemplo de qué decir:</strong><br>
+                    "Al principio no me sentía seguro ya que sonaba muy atractivo para ser verdad, ahora estoy muy
+                    contento de haber recibido el asesoramiento y seguir el paso a paso de aplicación, el proceso fue
+                    muy transparente y fácil de realizar..."
+                </div>
+
+                <div class="media-options">
+                    <div class="media-btn" id="btn-step3-vid" onclick="toggleStepMedia(3, 'vid')"><span>📹</span>Video
+                    </div>
+                    <div class="media-btn" id="btn-step3-aud" onclick="toggleStepMedia(3, 'aud')"><span>🎙️</span>Audio
+                    </div>
+                </div>
+
+                <div id="step3-recorder-ui" style="display:none; margin-bottom: 1rem;">
+                    <button class="btn btn-sm" id="btn-record-step3" onclick="toggleStepRecording(3)">Grabar</button>
+                    <div class="recording-indicator" id="step3-rec-indicator" style="display:none">
+                        <div class="pulse"></div> Grabando... <span id="step3-timer">00:00</span>
+                    </div>
+                </div>
+
+                <div class="preview-container" id="step3-preview"></div>
+
+                <div class="nav-footer">
+                    <button class="btn-text" onclick="prevStep(2)">←</button>
+                    <button class="btn-text" onclick="nextStep(4)">Siguiente</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Valued -->
+            <div class="step" id="step-4">
+                <h2>4. Lo más valorado</h2>
+                <p>¿Qué fue lo que más valoraste del proceso?</p>
+
+                <div class="step-example">
+                    <strong>Ejemplo de qué decir:</strong><br>
+                    "Lo que más valoré fue la atención personalizada y la rapidez con la que resolvieron mis dudas sobre
+                    el viaje y los trámites. Me sentí acompañado en todo momento..."
+                </div>
+
+                <div class="media-options">
+                    <div class="media-btn" id="btn-step4-vid" onclick="toggleStepMedia(4, 'vid')"><span>📹</span>Video
+                    </div>
+                    <div class="media-btn" id="btn-step4-aud" onclick="toggleStepMedia(4, 'aud')"><span>🎙️</span>Audio
+                    </div>
+                </div>
+
+                <div id="step4-recorder-ui" style="display:none; margin-bottom: 1rem;">
+                    <button class="btn btn-sm" id="btn-record-step4" onclick="toggleStepRecording(4)">Grabar</button>
+                    <div class="recording-indicator" id="step4-rec-indicator" style="display:none">
+                        <div class="pulse"></div> Grabando... <span id="step4-timer">00:00</span>
+                    </div>
+                </div>
+
+                <div class="preview-container" id="step4-preview"></div>
+
+                <div class="nav-footer">
+                    <button class="btn-text" onclick="prevStep(3)">←</button>
+                    <button class="btn-text" onclick="nextStep(5)">Siguiente</button>
+                </div>
+            </div>
+
+
+
+            <!-- Step 5: Advice (Former Step 6) -->
+            <div class="step" id="step-5">
+                <h2>5. Consejo</h2>
+                <p>¿Qué le dirías a una persona que está pensando en postularse?</p>
+
+                <div class="step-example">
+                    <strong>Ejemplo de qué decir:</strong><br>
+                    "Mi consejo es que no tengan miedo, que se preparen bien para la entrevista y que confíen en el
+                    equipo de Cotidiano. Es una experiencia que vale totalmente la pena..."
+                </div>
+
+                <div id="step5-recorder-ui" style="margin-bottom: 1rem;">
+                    <button class="btn btn-sm" id="btn-record-step5" onclick="toggleStepRecording(5)">Grabar
+                        Video</button>
+                    <div class="recording-indicator" id="step5-rec-indicator" style="display:none">
+                        <div class="pulse"></div> Grabando... <span id="step5-timer">00:00</span>
+                    </div>
+                </div>
+
+                <div class="preview-container" id="step5-preview"></div>
+
+                <div class="nav-footer">
+                    <button class="btn-text" onclick="prevStep(4)">←</button>
+                    <button class="btn-text" onclick="nextStep(6)">Siguiente</button>
+                </div>
+            </div>
+
+
+
+            <!-- Step 6: Authorization (Former Step 8) -->
+            <div class="step" id="step-6">
+                <h2>6. Autorización</h2>
+                <p>¿Autorizas el uso de tu testimonio para fines de comunicación y marketing?</p>
+                <div class="form-group">
+                    <select id="q8_authorize">
+                        <option value="Sí, autorizo">Sí, autorizo</option>
+                        <option value="No autorizo">No autorizo</option>
+                    </select>
+                </div>
+                <h2>7. Cómo aparecer</h2>
+                <div class="form-group">
+                    <select id="q9_display">
+                        <option value="Solo nombre">Solo nombre</option>
+                        <option value="Anónimo">Anónimo</option>
+                    </select>
+                </div>
+                <div class="nav-footer">
+                    <button class="btn-text" onclick="prevStep(5)">←</button>
+                    <button class="btn-text" id="btn-finish" onclick="submitForm()">Finalizar</button>
+                </div>
+            </div>
+
+
+
+            <!-- Final Screen -->
+            <div class="step" id="step-final">
+                <h2 style="text-align: center;">¡Gracias por compartir tu historia!</h2>
+                <p style="text-align: center;">Tu experiencia puede inspirar y abrir puertas a muchas personas más. 💙
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

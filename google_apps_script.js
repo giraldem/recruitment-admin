@@ -11,7 +11,8 @@ const CONFIG = {
   SHEET_NAME_JOBS: 'Vacantes',
   EVALUADOR_1_EMAIL: 'polytechcontacto@gmail.com',
   EVALUADOR_2_EMAIL: 'tmark2022.co@gmail.com',
-  RECRUITMENT_WHATSAPP: '573137333094'
+  RECRUITMENT_WHATSAPP: '573137333094',
+  SHEET_NAME_TESTIMONIALS: 'testimonios de los usuarios'
 };
 
 // 2. CONFIGURACIÓN DE COLUMNAS
@@ -87,6 +88,8 @@ function doPost(e) {
       case 'apply_job': return apiApply(data);
       case 'get_applications': return apiGetApplications(data);
       case 'check_status': return apiCheckStatus(data);
+      case 'get_access': return apiGetAccess(data);
+      case 'save_testimonial': return apiSaveTestimonial(data);
       default: throw new Error("Acción desconocida");
     }
   } catch (error) {
@@ -334,6 +337,74 @@ function apiCheckStatus(data) {
   return createResponse(lookupStatus(data.email));
 }
 
+function apiGetAccess(data) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(CONFIG.SHEET_NAME_USERS);
+  const rows = sheet.getDataRange().getValues();
+  const authorized = rows.some(r => r[0].toString().toLowerCase() === data.email.toLowerCase());
+  return createResponse({ success: authorized });
+}
+
+function apiSaveTestimonial(data) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(CONFIG.SHEET_NAME_TESTIMONIALS) || ss.insertSheet(CONFIG.SHEET_NAME_TESTIMONIALS);
+
+  // Fetch data from recruitment sheet
+  let name = "N/A", job = "N/A", dest = "N/A";
+  try {
+    const appSheet = ss.getSheetByName(CONFIG.SHEET_NAME_APPLICATIONS);
+    const appData = appSheet.getDataRange().getValues();
+    const headers = appData[0];
+    const emailIdx = headers.findIndex(h => h.toString().toLowerCase().includes('mail') || h.toString().toLowerCase().includes('correo'));
+    const nameIdx = headers.findIndex(h => h.toString().toLowerCase().includes('name') || h.toString().toLowerCase().includes('nombre'));
+    const jobIdx = headers.findIndex(h => h.toString().toLowerCase().includes('position') || h.toString().toLowerCase().includes('cargo'));
+    const destIdx = headers.findIndex(h => h.toString().toLowerCase().includes('nation') || h.toString().toLowerCase().includes('destino'));
+
+    for (let i = 1; i < appData.length; i++) {
+      if (emailIdx !== -1 && appData[i][emailIdx] && appData[i][emailIdx].toString().toLowerCase().trim() === data.email.toLowerCase().trim()) {
+        name = (nameIdx !== -1) ? (appData[i][nameIdx] || "N/A") : "N/A";
+        job = (jobIdx !== -1) ? (appData[i][jobIdx] || "N/A") : "N/A";
+        dest = (destIdx !== -1) ? (appData[i][destIdx] || "N/A") : "N/A";
+        break;
+      }
+    }
+    if (name === "N/A") name = "Candidato no encontrado";
+  } catch (e) { console.error("Error buscando datos: " + e.message); }
+
+  // Ensure headers
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow([
+      'Fecha', 'Email', 'Nombre', 'Cargo', 'Destino',
+      'Bio (Video)', 'Motivación (P2)', 'Experiencia (P3)', 'Valorado (P4)', 'Consejo (P5)',
+      'Autoriza', 'Aparición', 'Consentimiento'
+    ]);
+  }
+
+  const bioVideoUrl = data.bioVideo ? saveToDrive(data.bioVideo, `BIO_${data.email}`) : "";
+  const s2Url = data.step2Media ? saveToDrive(data.step2Media, `S2_MOTIVACION_${data.email}`) : "";
+  const s3Url = data.step3Media ? saveToDrive(data.step3Media, `S3_EXPERIENCIA_${data.email}`) : "";
+  const s4Url = data.step4Media ? saveToDrive(data.step4Media, `S4_VALORADO_${data.email}`) : "";
+  const s5Url = data.step5Media ? saveToDrive(data.step5Media, `S5_CONSEJO_${data.email}`) : "";
+
+  sheet.appendRow([
+    new Date(),
+    data.email,
+    name,
+    job,
+    dest,
+    bioVideoUrl,
+    s2Url,
+    s3Url,
+    s4Url,
+    s5Url,
+    data.q8_authorize,
+    data.q9_display,
+    data.consent_accepted ? "ACEPTADO" : "NO ACEPTADO"
+  ]);
+
+  return createResponse({ success: true, message: "Testimonio guardado con éxito" });
+}
+
 /************************************************************
  * UTILIDADES Y HTML
  ************************************************************/
@@ -526,6 +597,6 @@ function lookupStatus(email) {
 
 function setupDatabase() {
   const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
-  [CONFIG.SHEET_NAME_USERS, CONFIG.SHEET_NAME_JOBS, CONFIG.SHEET_NAME_APPLICATIONS].forEach(n => { if (!ss.getSheetByName(n)) ss.insertSheet(n); });
+  [CONFIG.SHEET_NAME_USERS, CONFIG.SHEET_NAME_JOBS, CONFIG.SHEET_NAME_APPLICATIONS, CONFIG.SHEET_NAME_TESTIMONIALS].forEach(n => { if (!ss.getSheetByName(n)) ss.insertSheet(n); });
   console.log("✅ Base de datos Polytech sincronizada.");
 }
